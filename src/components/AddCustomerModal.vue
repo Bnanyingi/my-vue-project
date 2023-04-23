@@ -10,10 +10,26 @@
             <input type="text" id="name" class="w-full form-input" v-model="customer.name" required>
           </div>
 
+             <div class="mb-4">
+            <label for="phone" class="block mb-2 font-medium text-gray-700">Phone</label>
+            <input type="phone" id="phone" class="w-full form-input" v-model="customer.phone" required>
+          </div>
+
           <div class="mb-4">
             <label for="email" class="block mb-2 font-medium text-gray-700">Email</label>
             <input type="email" id="email" class="w-full form-input" v-model="customer.email" required>
           </div>
+
+            <div class="mb-4">
+            <label for="labell" class="block mb-2 font-medium text-gray-700">Label</label>
+            <input type="labell" id="labell" class="w-full form-input" v-model="customer.label" required>
+          </div>
+
+             <div class="mb-4">
+            <label for="branch" class="block mb-2 font-medium text-gray-700">Branch</label>
+            <input type="branch" id="branch" class="w-full form-input" v-model="customer.branch" required>
+          </div>
+
 
           <div class="mt-6">
             <button type="submit" class="px-4 py-2 text-white bg-indigo-500 rounded-md hover:bg-indigo-600">Add Customer</button>
