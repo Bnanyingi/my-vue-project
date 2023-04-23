@@ -48,7 +48,8 @@
                     <td class="p-2">{{ customer.branch }}</td>
                     <td class="p-2">{{ customer.salesRep }}</td>
                     <td class="p-2">
-                        <button @click="editCustomer(customer)" class="px-2 py-1 text-white bg-blue-500 rounded hover:bg-blue-700">Edit</button>
+                        <button @click="editCustomerModalVisible = true" class="px-2 py-1 text-white bg-blue-500 rounded hover:bg-blue-700">Edit</button>
+                        <edit-customer-modal v-if="editCustomerModalVisible" :customer="customer" @close="editCustomerModalVisible = false" @customer-updated="updateCustomer"></edit-customer-modal>
                     </td>
                 </tr>
             </tbody>
@@ -71,12 +72,26 @@ import {
     computed
 } from "vue";
 import Pagination from 'v-pagination-3';
+import axios from 'axios';
 import customers from "../customers.json";
+
 import AddCustomerModal from './AddCustomerModal.vue';
+import EditCustomerModal from './EditCustomerModal.vue';
 export default {
     components: {
-        AddCustomerModal
+        AddCustomerModal,
+        EditCustomerModal
     },
+    created() {
+        axios.get('../db.json')
+            .then(response => {
+                this.customers = response.data.customers;
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    },
+
     data() {
         return {
             customers,
@@ -86,7 +101,9 @@ export default {
             searchTerm: "",
             currentPage: 1,
             perPage: 5,
-            showAddCustomerModal: false
+            showAddCustomerModal: false,
+            editCustomerModalVisible: false,
+            selectedCustomer: null
         };
     },
 
@@ -94,7 +111,16 @@ export default {
         addCustomer(customer) {
             // Add the new customer to the list
             this.customers.push(customer);
-        }
+        },
+        updateCustomer(updatedCustomer) {
+           this.selectedCustomer = customer;
+            // Find the index of the updated customer in your customer list
+            const index = this.customers.findIndex(customer => customer.id === updatedCustomer.id)
+
+            // Replace the old customer with the updated one
+            this.customers.splice(index, 1, updatedCustomer)
+        },
+     
     },
 
     computed: {
