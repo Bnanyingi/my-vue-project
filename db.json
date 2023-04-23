@@ -1,0 +1,68 @@
+{
+  "customers": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "phone": "555-555-5555",
+      "email": "john.doe@example.com",
+      "label": "VIP",
+      "branch": "New York"
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith",
+      "phone": "555-555-5555",
+      "email": "jane.smith@example.com",
+      "label": "Preferred",
+      "branch": "Los Angeles"
+    },
+    {
+      "id": 3,
+      "name": "Bob Johnson",
+      "phone": "555-555-5555",
+      "email": "bob.johnson@example.com",
+      "label": "Standard",
+      "branch": "Chicago"
+    },
+    {
+      "id": 4,
+      "name": "Bob Johnson",
+      "phone": "555-555-5555",
+      "email": "bob.johnson@example.com",
+      "label": "Standard",
+      "branch": "Chicago"
+    },
+    {
+      "id": 5,
+      "name": "Barbz Johnson",
+      "phone": "555-555-5555",
+      "email": "bob.johnson@example.com",
+      "label": "Standard",
+      "branch": "Chicago"
+    },
+    {
+      "name": "Barbara Nanyingi",
+      "email": "nanyingibarbara@gmail.com",
+      "phone": "0741848472",
+      "label": "Los Angeles",
+      "branch": "hr",
+      "id": 6
+    },
+    {
+      "name": "Barbara Nanyingi",
+      "email": "nanyingibarbara@gmail.com",
+      "phone": "0741848472",
+      "label": "Los Angeles",
+      "branch": "Western",
+      "id": 7
+    },
+    {
+      "name": "Jason Nanyingi",
+      "email": "nanyingibarbara@gmail.com",
+      "phone": "0741848472",
+      "label": "Hr",
+      "branch": "Western",
+      "id": 8
+    }
+  ]
+}

@@ -4,7 +4,7 @@
         <div class="fixed inset-0 transition-opacity" aria-hidden="true" @click="closeModal"></div>
 
         <div class="overflow-hidden transition-all transform bg-white rounded-lg shadow-xl sm:max-w-lg sm:w-full">
-            <form class="p-6" @submit.prevent="addCustomer">
+            <form class="p-6" @submit.prevent="updateCustomer">
                 <div class="mb-4">
                     <label for="name" class="block mb-2 font-medium text-gray-700">Name</label>
                     <input type="text" id="name" class="w-full p-2 border rounded outline-none ring-indigo-300 focus:ring form-input" v-model="customer.name" required>
@@ -21,17 +21,17 @@
                 </div>
 
                 <div class="mb-4">
-                    <label for="labell" class="block mb-2 font-medium text-gray-700">Label</label>
-                    <input type="labell" id="labell" class="w-full p-2 border rounded outline-none ring-indigo-300 focus:ring form-input" v-model="customer.label" required>
+                    <label for="label" class="block mb-2 font-medium text-gray-700">Label</label>
+                    <input type="text" id="label" class="w-full p-2 border rounded outline-none ring-indigo-300 focus:ring form-input" v-model="customer.label" required>
                 </div>
 
                 <div class="mb-4">
                     <label for="branch" class="block mb-2 font-medium text-gray-700">Branch</label>
-                    <input type="branch" id="branch" class="w-full p-2 border rounded outline-none ring-indigo-300 focus:ring form-input" v-model="customer.branch" required>
+                    <input type="text" id="branch" class="w-full p-2 border rounded outline-none ring-indigo-300 focus:ring form-input" v-model="customer.branch" required>
                 </div>
 
                 <div class="mt-6">
-                    <button type="submit" class="px-4 py-2 text-white bg-indigo-500 rounded-md hover:bg-indigo-600">Add Customer</button>
+                    <button type="submit" class="px-4 py-2 text-white bg-indigo-500 rounded-md hover:bg-indigo-600">Update Customer</button>
                     <button type="button" class="px-4 py-2 ml-4 text-gray-700 rounded-md hover:bg-gray-100" @click="closeModal">Cancel</button>
                 </div>
             </form>
@@ -42,34 +42,43 @@
 
 <script>
 export default {
-    data() {
-        return {
-            customer: {
+    props: {
+        customer: {
+            type: Object,
+            default: () => ({
+                id: '',
                 name: '',
-                email: '',
                 phone: '',
+                email: '',
                 label: '',
                 branch: ''
+            })
+        }
+    },
+    data() {
+        return {
+            updatedCustomer: {
+                name: this.customer?.name,
+                email: this.customer?.email,
+                phone: this.customer?.phone,
+                label: this.customer?.label,
+                branch: this.customer?.branch
             }
         }
     },
     methods: {
-        addCustomer() {
-            // Make a POST request to your JSON-server
-            fetch('http://localhost:3000/customers', {
-                    method: 'POST',
+        updateCustomer() {
+            fetch(`http://localhost:3000/customers/${this.customer.id}`, {
+                    method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(this.customer)
+                    body: JSON.stringify(this.updatedCustomer)
                 })
-                .then(response => {
-                    console.log(response.status);
-                    return response.json();
-                })
+                .then(response => response.json())
                 .then(data => {
-                    // Emit an event to update the customer list
-                    this.$emit('customer-added', data);
+                    
+                    this.$emit('customer-updated', data);
                 })
                 .catch(error => console.error(error));
 
