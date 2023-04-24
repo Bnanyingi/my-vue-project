@@ -1,44 +1,44 @@
 {
   "customers": [
     {
-      "id": 1,
-      "name": "John Doe",
-      "phone": "555-555-5555",
+      "name": "Henrie Warieta",
       "email": "john.doe@example.com",
+      "phone": "555-555-5555",
       "label": "VIP",
-      "branch": "New York"
+      "branch": "New York",
+      "id": 1
     },
     {
-      "id": 2,
-      "name": "Jane Smith",
-      "phone": "555-555-5555",
+      "name": "Joja Smith",
       "email": "jane.smith@example.com",
+      "phone": "555-555-5555",
       "label": "Preferred",
-      "branch": "Los Angeles"
+      "branch": "Los Angeles",
+      "id": 2
     },
     {
-      "id": 3,
       "name": "Bob Johnson",
-      "phone": "555-555-5555",
       "email": "bob.johnson@example.com",
+      "phone": "555-555-5555",
       "label": "Standard",
-      "branch": "Chicago"
+      "branch": "Chicago",
+      "id": 3
     },
     {
-      "id": 4,
-      "name": "Bob Johnson",
-      "phone": "555-555-5555",
+      "name": "Jiji app",
       "email": "bob.johnson@example.com",
+      "phone": "555-555-5555",
       "label": "Standard",
-      "branch": "Chicago"
+      "branch": "Chicago",
+      "id": 4
     },
     {
-      "id": 5,
-      "name": "Barbz Johnson",
-      "phone": "555-555-5555",
+      "name": "Barbie Johnson",
       "email": "bob.johnson@example.com",
+      "phone": "555-555-5555",
       "label": "Standard",
-      "branch": "Chicago"
+      "branch": "Chicago",
+      "id": 5
     },
     {
       "name": "Barbara Nanyingi",
@@ -65,7 +65,7 @@
       "id": 8
     },
     {
-      "name": "Kairo Anthony",
+      "name": "Tony Kairo",
       "email": "toniecairow@gmail.com",
       "phone": "0741848472",
       "label": "Los Angeles",

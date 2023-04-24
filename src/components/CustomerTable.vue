@@ -48,15 +48,15 @@
                     <td class="p-2">{{ customer.branch }}</td>
                     <td class="p-2">{{ customer.salesRep }}</td>
                     <td class="p-2">
-                        <button @click="editCustomerModalVisible = true" class="px-2 py-1 text-white bg-blue-500 rounded hover:bg-blue-700">Edit</button>
+                        <button @click="editCustomer(customer)" class="px-2 py-1 text-white bg-blue-500 rounded hover:bg-blue-700">Edit</button>
                         <edit-customer-modal v-if="editCustomerModalVisible" :customer="selectedCustomer" @close="editCustomerModalVisible = false" @customer-updated="updateCustomer"></edit-customer-modal>
                     </td>
                 </tr>
             </tbody>
         </table>
-
-        <v-pagination-3 v-if="filteredCustomers.length > perPage" v-model="currentPage" :perPage="perPage" :total="filteredCustomers.length" />
-
+        <div class="flex justify-center">
+            <v-pagination-3 v-if="filteredCustomers.length > perPage" v-model="currentPage" :perPage="perPage" :total="filteredCustomers.length" />
+        </div>
     </div>
     <div>
         <button @click="showAddCustomerModal = true" class="px-2 py-1 text-white bg-green-500 rounded hover:bg-green-700">Add Customer</button>
@@ -123,7 +123,8 @@ export default {
 
             const index = this.customers.findIndex(customer => customer.id === updatedCustomer.id)
 
-            this.customers.splice(index, 1, updatedCustomer)
+            this.customers.splice(index, 1, updatedCustomer);
+           
         },
 
     },
