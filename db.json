@@ -60,9 +60,17 @@
       "name": "Jason Nanyingi",
       "email": "nanyingibarbara@gmail.com",
       "phone": "0741848472",
-      "label": "Hr",
-      "branch": "Western",
+      "label": "ht",
+      "branch": "Wester",
       "id": 8
+    },
+    {
+      "name": "Kairo Anthony",
+      "email": "toniecairow@gmail.com",
+      "phone": "0741848472",
+      "label": "Los Angeles",
+      "branch": "Western",
+      "id": 9
     }
   ]
 }

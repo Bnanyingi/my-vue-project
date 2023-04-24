@@ -7,27 +7,27 @@
             <form class="p-6" @submit.prevent="updateCustomer">
                 <div class="mb-4">
                     <label for="name" class="block mb-2 font-medium text-gray-700">Name</label>
-                    <input type="text" id="name" class="w-full p-2 border rounded outline-none ring-indigo-300 focus:ring form-input" v-model="customer.name" required>
+                    <input type="text" id="name" class="w-full p-2 border rounded outline-none ring-indigo-300 focus:ring form-input" v-model="customerName" required>
                 </div>
 
                 <div class="mb-4">
                     <label for="phone" class="block mb-2 font-medium text-gray-700">Phone</label>
-                    <input type="phone" id="phone" class="w-full p-2 border rounded outline-none ring-indigo-300 focus:ring form-input" v-model="customer.phone" required>
+                    <input type="phone" id="phone" class="w-full p-2 border rounded outline-none ring-indigo-300 focus:ring form-input" v-model="customerPhone" required>
                 </div>
 
                 <div class="mb-4">
                     <label for="email" class="block mb-2 font-medium text-gray-700">Email</label>
-                    <input type="email" id="email" class="w-full p-2 border rounded outline-none ring-indigo-300 focus:ring form-input" v-model="customer.email" required>
+                    <input type="email" id="email" class="w-full p-2 border rounded outline-none ring-indigo-300 focus:ring form-input" v-model="customerEmail" required>
                 </div>
 
                 <div class="mb-4">
                     <label for="label" class="block mb-2 font-medium text-gray-700">Label</label>
-                    <input type="text" id="label" class="w-full p-2 border rounded outline-none ring-indigo-300 focus:ring form-input" v-model="customer.label" required>
+                    <input type="text" id="label" class="w-full p-2 border rounded outline-none ring-indigo-300 focus:ring form-input" v-model="customerLabel" required>
                 </div>
 
                 <div class="mb-4">
                     <label for="branch" class="block mb-2 font-medium text-gray-700">Branch</label>
-                    <input type="text" id="branch" class="w-full p-2 border rounded outline-none ring-indigo-300 focus:ring form-input" v-model="customer.branch" required>
+                    <input type="text" id="branch" class="w-full p-2 border rounded outline-none ring-indigo-300 focus:ring form-input" v-model="customerBranch" required>
                 </div>
 
                 <div class="mt-6">
@@ -42,17 +42,22 @@
 
 <script>
 export default {
-    props: {
-        customer: {
-            type: Object,
-            default: () => ({
-                id: '',
-                name: '',
-                phone: '',
-                email: '',
-                label: '',
-                branch: ''
-            })
+    props: ['customer'],
+    computed: {
+        customerName() {
+            return this.customer ? this.customer.name : '';
+        },
+        customerPhone() {
+            return this.customer ? this.customer.phone : '';
+        },
+        customerEmail() {
+            return this.customer ? this.customer.email : '';
+        },
+        customerLabel() {
+            return this.customer ? this.customer.label : '';
+        },
+        customerBranch() {
+            return this.customer ? this.customer.branch : '';
         }
     },
     data() {
@@ -67,22 +72,27 @@ export default {
         }
     },
     methods: {
-        updateCustomer() {
-            fetch(`http://localhost:3000/customers/${this.customer.id}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(this.updatedCustomer)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    
-                    this.$emit('customer-updated', data);
-                })
-                .catch(error => console.error(error));
 
-            this.closeModal();
+        updateCustomer() {
+            if (this.customer) {
+                fetch(`http://localhost:3000/customers/${this.customer.id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(this.updatedCustomer)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+
+                        this.$emit('customer-updated', data);
+                    })
+                    .catch(error => console.error(error));
+
+                this.closeModal();
+
+            }
+
         },
         closeModal() {
             this.$emit('close');
