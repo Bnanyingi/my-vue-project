@@ -49,7 +49,7 @@
                     <td class="p-2">{{ customer.salesRep }}</td>
                     <td class="p-2">
                         <button @click="editCustomerModalVisible = true" class="px-2 py-1 text-white bg-blue-500 rounded hover:bg-blue-700">Edit</button>
-                        <edit-customer-modal v-if="editCustomerModalVisible" :customer="customer" @close="editCustomerModalVisible = false" @customer-updated="updateCustomer"></edit-customer-modal>
+                        <edit-customer-modal v-if="editCustomerModalVisible" :customer="selectedCustomer" @close="editCustomerModalVisible = false" @customer-updated="updateCustomer"></edit-customer-modal>
                     </td>
                 </tr>
             </tbody>
@@ -80,7 +80,8 @@ import EditCustomerModal from './EditCustomerModal.vue';
 export default {
     components: {
         AddCustomerModal,
-        EditCustomerModal
+        EditCustomerModal,
+        Pagination
     },
     created() {
         axios.get('../db.json')
@@ -94,7 +95,7 @@ export default {
 
     data() {
         return {
-            customers,
+            customers: [],
             labelFilter: "",
             branchFilter: "",
             salesRepFilter: "",
@@ -112,15 +113,20 @@ export default {
             // Add the new customer to the list
             this.customers.push(customer);
         },
+          editCustomer(customer) {
+            this.selectedCustomer = customer;
+            this.editCustomerModalVisible = true;
+        },
+
         updateCustomer(updatedCustomer) {
-           this.selectedCustomer = customer;
+            this.selectedCustomer = updatedCustomer;
             // Find the index of the updated customer in your customer list
             const index = this.customers.findIndex(customer => customer.id === updatedCustomer.id)
 
             // Replace the old customer with the updated one
             this.customers.splice(index, 1, updatedCustomer)
         },
-     
+      
     },
 
     computed: {
