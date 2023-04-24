@@ -113,20 +113,19 @@ export default {
             // Add the new customer to the list
             this.customers.push(customer);
         },
-          editCustomer(customer) {
+        editCustomer(customer) {
             this.selectedCustomer = customer;
             this.editCustomerModalVisible = true;
         },
 
         updateCustomer(updatedCustomer) {
             this.selectedCustomer = updatedCustomer;
-            // Find the index of the updated customer in your customer list
+
             const index = this.customers.findIndex(customer => customer.id === updatedCustomer.id)
 
-            // Replace the old customer with the updated one
             this.customers.splice(index, 1, updatedCustomer)
         },
-      
+
     },
 
     computed: {
