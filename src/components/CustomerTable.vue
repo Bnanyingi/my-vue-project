@@ -1,3 +1,148 @@
+<script lang="ts">
+import {
+    defineComponent,
+    ref,
+    computed,
+    reactive
+} from "vue";
+import Pagination from "v-pagination-3";
+import axios from "axios";
+
+import AddCustomerModal from "./AddCustomerModal.vue";
+import EditCustomerModal from "./EditCustomerModal.vue";
+
+interface Customer {
+    id: number;
+    name: string;
+    phone: string;
+    email: string;
+    label: string;
+    branch: string;
+    salesRep: string;
+}
+
+export default defineComponent({
+    components: {
+        AddCustomerModal,
+        EditCustomerModal,
+        Pagination,
+    },
+
+    setup() {
+        const customers = reactive < Customer[] > ([]);
+        const labelFilter = ref("");
+        const branchFilter = ref("");
+        const salesRepFilter = ref("");
+        const searchTerm = ref("");
+        const currentPage = ref(1);
+        const perPage = ref(5);
+        const showAddCustomerModal = ref(false);
+        const editCustomerModalVisible = ref(false);
+        const selectedCustomer = ref < Customer | null > (null);
+
+        const addCustomer = (customer: Customer) => {
+            // Add the new customer to the list
+            customers.push(customer);
+        };
+
+        const handleCustomerAdded = (customer: Customer) => {
+            customers.push(customer);
+        };
+
+        const editCustomer = (customer: Customer) => {
+            selectedCustomer.value = customer;
+            editCustomerModalVisible.value = true;
+        };
+
+        const updateCustomer = (updatedCustomer: Customer) => {
+            selectedCustomer.value = updatedCustomer;
+
+            const index = customers.findIndex(
+                (customer) => customer.id === updatedCustomer.id
+            );
+
+            customers.splice(index, 1, updatedCustomer);
+        };
+
+        const filteredCustomers = computed(() => {
+            return customers.filter((customer) => {
+                const labelFilterValue =
+                    labelFilter.value === "" || customer.label === labelFilter.value;
+                const branchFilterValue =
+                    branchFilter.value === "" || customer.branch === branchFilter.value;
+                const salesRepFilterValue =
+                    salesRepFilter.value === "" ||
+                    customer.salesRep === salesRepFilter.value;
+                const searchTermValue =
+                    searchTerm.value === "" ||
+                    customer.name.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
+                    customer.phone.includes(searchTerm.value) ||
+                    customer.email.toLowerCase().includes(searchTerm.value.toLowerCase());
+                return (
+                    labelFilterValue &&
+                    branchFilterValue &&
+                    salesRepFilterValue &&
+                    searchTermValue
+                );
+            });
+        });
+
+        const paginatedCustomers = computed(() => {
+            const start = (currentPage.value - 1) * perPage.value;
+            const end = start + perPage.value;
+            return filteredCustomers.value.slice(start, end);
+        });
+
+        const labels = computed(() => {
+            const allLabels = customers.map((customer) => customer.label);
+            return [...new Set(allLabels)];
+        });
+
+        const branches = computed(() => {
+            const allBranches = customers.map((customer) => customer.branch);
+            return [...new Set(allBranches)];
+        });
+
+        const salesReps = computed(() => {
+            const allReps = customers.map((customer) => customer.salesRep);
+            return [...new Set(allReps)];
+        });
+
+        axios
+            .get("../db.json")
+            .then((response) => {
+                customers.push(...response.data.customers);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+        return {
+            customers,
+            labelFilter,
+            branchFilter,
+            salesRepFilter,
+            searchTerm,
+            currentPage,
+            perPage,
+            showAddCustomerModal,
+            editCustomerModalVisible,
+            selectedCustomer,
+            addCustomer,
+            editCustomer,
+            handleCustomerAdded,
+            updateCustomer,
+            filteredCustomers,
+            paginatedCustomers,
+            labels,
+            branches,
+            salesReps,
+        };
+
+    },
+});
+</script>
+
 <template>
 <div class="p-4">
     <h1>Customer List</h1>
@@ -6,23 +151,23 @@
             <label class="mr-2">Label:</label>
             <select v-model="labelFilter" class="p-2 bg-gray-100 rounded-lg">
                 <option value="">All</option>
-                <option v-for="label in labels" :value="label">{{ label }}</option>
+                <option v-for="label in labels" :value="label" :key="label">{{ label }}</option>
             </select>
             <label class="ml-4 mr-2">Branch:</label>
             <select v-model="branchFilter" class="p-2 bg-gray-100 rounded-lg">
                 <option value="">All</option>
-                <option v-for="branch in branches" :value="branch">{{ branch }}</option>
+                <option v-for="branch in branches" :value="branch" :key="branch">{{ branch }}</option>
             </select>
             <label class="ml-4 mr-2">Sales Rep:</label>
             <select v-model="salesRepFilter" class="p-2 bg-gray-100 rounded-lg">
                 <option value="">All</option>
-                <option v-for="rep in salesReps" :value="rep">{{ rep }}</option>
+                <option v-for="rep in salesReps" :value="rep" :key="rep">{{ rep }}</option>
             </select>
         </div>
 
         <div class="flex items-center search">
             <label class="mr-2">Search:</label>
-            <input v-model="searchTerm" type="text" class="p-2 bg-gray-100 rounded-lg">
+            <input v-model="searchTerm" type="text" placeholder="Search by name, phone, or email" class="p-2 bg-gray-100 rounded-lg form-control">
         </div>
     </div>
     <div>
@@ -49,7 +194,7 @@
                     <td class="p-2">{{ customer.salesRep }}</td>
                     <td class="p-2">
                         <button @click="editCustomer(customer)" class="px-2 py-1 text-white bg-blue-500 rounded hover:bg-blue-700">Edit</button>
-                        <edit-customer-modal v-if="editCustomerModalVisible" :customer="selectedCustomer" @close="editCustomerModalVisible = false" @customer-updated="updateCustomer"></edit-customer-modal>
+                        <EditCustomerModal v-if="editCustomerModalVisible" :customer="selectedCustomer" @close="editCustomerModalVisible = false" @update-customer="updateCustomer" />
                     </td>
                 </tr>
             </tbody>
@@ -60,114 +205,8 @@
     </div>
     <div>
         <button @click="showAddCustomerModal = true" class="px-2 py-1 text-white bg-green-500 rounded hover:bg-green-700">Add Customer</button>
-        <add-customer-modal v-if="showAddCustomerModal" @add-customer="addCustomer" @close="showAddCustomerModal = false"></add-customer-modal>
+        <AddCustomerModal v-if="showAddCustomerModal" @close="showAddCustomerModal = false" @add-customer="addCustomer" :customerAdded="handleCustomerAdded" />
     </div>
 
 </div>
 </template>
-
-<script>
-import {
-    ref,
-    computed
-} from "vue";
-import Pagination from 'v-pagination-3';
-import axios from 'axios';
-import customers from "../customers.json";
-
-import AddCustomerModal from './AddCustomerModal.vue';
-import EditCustomerModal from './EditCustomerModal.vue';
-export default {
-    components: {
-        AddCustomerModal,
-        EditCustomerModal,
-        Pagination
-    },
-    created() {
-        axios.get('../db.json')
-            .then(response => {
-                this.customers = response.data.customers;
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    },
-
-    data() {
-        return {
-            customers: [],
-            labelFilter: "",
-            branchFilter: "",
-            salesRepFilter: "",
-            searchTerm: "",
-            currentPage: 1,
-            perPage: 5,
-            showAddCustomerModal: false,
-            editCustomerModalVisible: false,
-            selectedCustomer: null
-        };
-    },
-
-    methods: {
-        addCustomer(customer) {
-            // Add the new customer to the list
-            this.customers.push(customer);
-        },
-        editCustomer(customer) {
-            this.selectedCustomer = customer;
-            this.editCustomerModalVisible = true;
-        },
-
-        updateCustomer(updatedCustomer) {
-            this.selectedCustomer = updatedCustomer;
-
-            const index = this.customers.findIndex(customer => customer.id === updatedCustomer.id)
-
-            this.customers.splice(index, 1, updatedCustomer);
-           
-        },
-
-    },
-
-    computed: {
-        filteredCustomers() {
-            return this.customers.filter((customer) => {
-                const labelFilter =
-                    this.labelFilter === "" || customer.label === this.labelFilter;
-                const branchFilter =
-                    this.branchFilter === "" || customer.branch === this.branchFilter;
-                const salesRepFilter =
-                    this.salesRepFilter === "" || customer.salesRep === this.salesRepFilter;
-                const searchTerm =
-                    this.searchTerm === "" ||
-                    customer.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                    customer.phone.includes(this.searchTerm) ||
-                    customer.email.toLowerCase().includes(this.searchTerm.toLowerCase());
-                return labelFilter && branchFilter && salesRepFilter && searchTerm;
-            });
-        },
-
-        paginatedCustomers() {
-            const start = (this.currentPage - 1) * this.perPage;
-            const end = start + this.perPage;
-            return this.filteredCustomers.slice(start, end);
-            console.log(this.filteredCustomers, 'this')
-        },
-
-        labels() {
-            const allLabels = this.customers.map((customer) => customer.label);
-            return [...new Set(allLabels)];
-        },
-
-        branches() {
-            const allBranches = this.customers.map((customer) => customer.branch);
-            return [...new Set(allBranches)];
-        },
-
-        salesReps() {
-            const allReps = this.customers.map((customer) => customer.salesRep);
-            return [...new Set(allReps)];
-        },
-    },
-};
-</script>

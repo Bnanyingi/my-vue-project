@@ -1,3 +1,62 @@
+<script lang="ts">
+import { defineComponent, ref } from 'vue';
+
+export default defineComponent({
+  props: {
+    customer: {
+      type: Object as () => {
+        id: number;
+        name: string;
+        email: string;
+        phone: string;
+        label: string;
+        branch: string;
+      },
+      required: true,
+    },
+  },
+  setup(props, { emit }) {
+    const updatedCustomer = ref({
+      name: props.customer?.name,
+      email: props.customer?.email,
+      phone: props.customer?.phone,
+      label: props.customer?.label,
+      branch: props.customer?.branch,
+      salesRep: props.customer?.salesRep,
+    });
+
+    const updateCustomer = (): void => {
+      if (props.customer) {
+        fetch(`http://localhost:3000/customers/${props.customer.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updatedCustomer.value),
+        })
+          .then(response => response.json())
+          .then(data => {
+            emit('customer-updated', data);
+          })
+          .catch(error => console.error(error));
+
+        closeModal();
+      }
+    };
+
+    const closeModal = (): void => {
+      emit('close');
+    };
+
+    return {
+      updatedCustomer,
+      updateCustomer,
+      closeModal,
+    };
+  },
+});
+</script>
+
 <template>
     <div class="fixed inset-0 z-10 overflow-y-auto">
         <div class="flex items-center justify-center min-h-screen">
@@ -29,6 +88,11 @@
                         <label for="branch" class="block mb-2 font-medium text-gray-700">Branch</label>
                         <input type="text" id="branch" class="w-full p-2 border rounded outline-none ring-indigo-300 focus:ring form-input" v-model="updatedCustomer.branch" required>
                     </div>
+
+                     <div class="mb-4">
+                        <label for="branch" class="block mb-2 font-medium text-gray-700">salesRep</label>
+                        <input type="text" id="branch" class="w-full p-2 border rounded outline-none ring-indigo-300 focus:ring form-input" v-model="updatedCustomer.salesRep" required>
+                    </div>
     
                     <div class="mt-6">
                         <button type="submit" class="px-4 py-2 text-white bg-indigo-500 rounded-md hover:bg-indigo-600" >Update Customer</button>
@@ -40,53 +104,4 @@
     </div>
     </template>
     
-    <script>
-    export default {
-        props: ['customer'],
-        data() {
-            return {
-                updatedCustomer: {
-                    name: this.customer?.name,
-                    email: this.customer?.email,
-                    phone: this.customer?.phone,
-                    label: this.customer?.label,
-                    branch: this.customer?.branch
-                }
-            }
-        },
-        methods: {
-            updateCustomer() {
-                if (this.customer) {
-                    fetch(`http://localhost:3000/customers/${this.customer.id}`, {
-                            method: 'PUT',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(this.updatedCustomer)
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-    
-                            this.$emit('customer-updated', data);
-                            this.$forceUpdate();
-                        })
-                        .catch(error => console.error(error));
-                        
-    
-                    this.closeModal();
-                    
-    
-                }
-
-                
-                
-    
-            },
-            closeModal() {
-                this.$emit('close');
-                 
-            },
-            
-        }
-    }
-    </script>
+  
