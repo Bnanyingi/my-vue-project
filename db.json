@@ -1,18 +1,20 @@
 {
   "customers": [
     {
-      "name": "Henrie Warieta",
+      "name": "Henrii Wariete",
       "email": "john.doe@example.com",
       "phone": "555-555-5555",
-      "label": "VIP",
-      "branch": "New York",
+      "label": "Gordon",
+      "salesRep": "Utumishi",
+      "branch": "New Yor",
       "id": 1
     },
     {
       "name": "Joja Smith",
       "email": "jane.smith@example.com",
       "phone": "555-555-5555",
-      "label": "Preferred",
+      "label": "js",
+      "salesRep": "Utumishi",
       "branch": "Los Angeles",
       "id": 2
     },
@@ -21,7 +23,8 @@
       "email": "bob.johnson@example.com",
       "phone": "555-555-5555",
       "label": "Standard",
-      "branch": "Chicago",
+      "salesRep": "Utumishi",
+      "branch": "Las Vegas",
       "id": 3
     },
     {
@@ -29,6 +32,7 @@
       "email": "bob.johnson@example.com",
       "phone": "555-555-5555",
       "label": "Standard",
+      "salesRep": "Utumishi",
       "branch": "Chicago",
       "id": 4
     },
@@ -37,6 +41,7 @@
       "email": "bob.johnson@example.com",
       "phone": "555-555-5555",
       "label": "Standard",
+      "salesRep": "Utumishi",
       "branch": "Chicago",
       "id": 5
     },
@@ -45,6 +50,7 @@
       "email": "nanyingibarbara@gmail.com",
       "phone": "0741848472",
       "label": "Los Angeles",
+      "salesRep": "Utumishi",
       "branch": "hr",
       "id": 6
     },
@@ -53,6 +59,7 @@
       "email": "nanyingibarbara@gmail.com",
       "phone": "0741848472",
       "label": "Los Angeles",
+      "salesRep": "Utumishi",
       "branch": "Western",
       "id": 7
     },
@@ -61,6 +68,7 @@
       "email": "nanyingibarbara@gmail.com",
       "phone": "0741848472",
       "label": "ht",
+      "salesRep": "Utumishi",
       "branch": "Wester",
       "id": 8
     },
@@ -69,8 +77,88 @@
       "email": "toniecairow@gmail.com",
       "phone": "0741848472",
       "label": "Los Angeles",
+      "salesRep": "Utumishi",
       "branch": "Western",
       "id": 9
+    },
+    {
+      "name": "Joshua techmata",
+      "email": "nanyingibarbara@gmail.com",
+      "phone": "0717625343",
+      "label": "Los Angeles",
+      "salesRep": "Utumishi",
+      "branch": "western",
+      "id": 10
+    },
+    {
+      "name": "Barbara Nanyingi",
+      "email": "nanyingibarbara@gmail.com",
+      "phone": "0741848472",
+      "label": "Los Angeles",
+      "salesRep": "Utumishi",
+      "branch": "hr",
+      "id": 11
+    },
+    {
+      "name": "Hrofy",
+      "email": "nanyingibarbara@gmail.com",
+      "phone": "0741848472",
+      "label": "Los Angeles",
+      "salesRep": "Utumishi",
+      "branch": "western",
+      "id": 12
+    },
+    {
+      "name": "Barbara Nanyingi",
+      "email": "nanyingibarbara@gmail.com",
+      "phone": "0741848472",
+      "label": "Los Angeles",
+      "salesRep": "Utumishi",
+      "branch": "Western",
+      "id": 13
+    },
+    {
+      "name": "Barbara Nanyingi",
+      "email": "nanyingibarbara@gmail.com",
+      "phone": "0741848472",
+      "label": "Los Angeles",
+      "branch": "Western",
+      "salesRep": "western",
+      "id": 14
+    },
+    {
+      "name": "Barbara Nanyingi",
+      "email": "nanyingibarbara@gmail.com",
+      "phone": "0741848472",
+      "label": "Gordon",
+      "branch": "Western",
+      "salesRep": "Yuda",
+      "id": 15
+    },
+    {
+      "name": "Barbara Nanyingi",
+      "email": "nanyingibarbara@gmail.com",
+      "phone": "0741848472",
+      "label": "Los Angeles",
+      "branch": "Los Angeles",
+      "id": 16
+    },
+    {
+      "name": "Barbara Nanyingi",
+      "email": "nanyingibarbara@gmail.com",
+      "phone": "0741848472",
+      "label": "Los Angeles",
+      "branch": "Wester",
+      "id": 17
+    },
+    {
+      "name": "Barbara Nanyingi",
+      "email": "nanyingibarbara@gmail.com",
+      "phone": "0741848472",
+      "label": "Los Angeles",
+      "branch": "Gororo",
+      "salesRep": "western",
+      "id": 18
     }
   ]
 }
