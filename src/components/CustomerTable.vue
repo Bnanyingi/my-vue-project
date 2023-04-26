@@ -145,7 +145,7 @@ export default defineComponent({
 
 <template>
 <div class="p-4">
-    <h1>Customer List</h1>
+    <h1 class="mb-6">Customer List</h1>
     <div class="flex flex-wrap items-center justify-between mb-4">
         <div class="flex items-center mb-2 filters md:mb-0">
             <label class="mr-2">Label:</label>
@@ -171,7 +171,7 @@ export default defineComponent({
         </div>
     </div>
     <div>
-        <table class="w-full mb-4 border border-collapse border-gray-300">
+        <table class="w-full mb-4 border border-collapse border-gray-300" id="customerTable">
             <thead>
                 <tr class="bg-gray-100 border-b border-gray-300">
                     <th class="p-2 text-left">ID</th>
