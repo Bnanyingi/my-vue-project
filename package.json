@@ -10,6 +10,7 @@
     "mock-api": "json-server --watch db.json --port 3000"
   },
   "dependencies": {
+    "@hennge/vue3-pagination": "^1.0.17",
     "axios": "^1.3.6",
     "v-pagination-3": "^0.1.7",
     "vue": "^3.2.47"
